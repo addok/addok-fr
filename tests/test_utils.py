@@ -1,5 +1,6 @@
 import pytest
 
+from addok.helpers.text import Token
 from addok_fr.utils import phonemicize
 
 
@@ -104,4 +105,4 @@ from addok_fr.utils import phonemicize
     ['h', 'h'],
 ])
 def test_phonemicize(input, output):
-    assert phonemicize(input) == output
+    assert phonemicize(Token(input)) == output

@@ -42,4 +42,4 @@ def phonemicize(s):
         for pattern, repl in rules:
             _s = re.sub(pattern, repl, _s)
         _CACHE[s] = _s
-    return _CACHE[s]
+    return s.update(_CACHE[s])

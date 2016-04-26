@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from codecs import open  # To use a consistent encoding
 from os import path
 
-import addok_fr
+VERSION = (0, 1, 0)
 
 here = path.abspath(path.dirname(__file__))
 
@@ -19,12 +19,12 @@ with open('requirements.txt', encoding='utf-8') as reqs:
 
 setup(
     name='addok-fr',
-    version=addok_fr.__version__,
-    description=addok_fr.__doc__,
+    version=".".join(map(str, VERSION)),
+    description="Add French specific string processors.",
     long_description=long_description,
-    url=addok_fr.__homepage__,
-    author=addok_fr.__author__,
-    author_email=addok_fr.__contact__,
+    url="https://github.com/addok/addok-fr",
+    author='Yohan Boniface',
+    author_email="yohan.boniface@data.gouv.fr",
     license='WTFPL',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -43,5 +43,5 @@ setup(
     install_requires=install_requires,
     extras_require={'test': ['pytest']},
     include_package_data=True,
-    entry_points={'addok.ext': ['fr=addok_fr.plugin']},
+    entry_points={'addok.ext': ['fr=addok_fr']},
 )

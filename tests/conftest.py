@@ -1,3 +1,4 @@
 def pytest_configure():
-    from addok import config
-    config.PLUGINS.append('addok_fr')
+    from addok import hooks
+    import addok_fr
+    hooks.register(addok_fr)

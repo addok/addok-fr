@@ -3,7 +3,7 @@
 ## Installation
 
     # No pypi release yet.
-    pip install git+https://github.com/addok/addok-france
+    pip install git+https://github.com/addok/addok-fr
 
 
 ## Configuration

@@ -2,15 +2,14 @@
 
 ## Installation
 
-    # No pypi release yet.
-    pip install git+https://github.com/addok/addok-fr
+    pip install addok-fr
 
 
 ## Configuration
 
-- Add `phonemicize` into PROCESSORS:
+- Add `phonemicize` into PROCESSORS_PYPATHS:
 
-    PROCESSORS = [
+    PROCESSORS_PYPATHS = [
         …,
         'addok_fr.phonemicize'
     ]

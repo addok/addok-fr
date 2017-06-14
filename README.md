@@ -1,4 +1,4 @@
-# Addok plugin for French support
+# Addok plugin for French support
 
 ## Installation
 

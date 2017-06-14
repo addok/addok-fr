@@ -1,4 +1,4 @@
-# Explicit mapping
+# Explicit mapping
 100 => cent
 10e, 10eme, xe, xeme => dixieme
 11e, 11eme, xie, xieme => onzieme

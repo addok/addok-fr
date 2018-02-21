@@ -109,6 +109,8 @@ from addok_fr.utils import phonemicize
     ['montage', 'montaj'],
     ['champs', 'chan'],
     ['grandchamps', 'granchan'],
+    ['vingt', 'vin'],
+    ['vingtieme', 'vintiem'],
 ])
 def test_phonemicize(input, output):
     assert phonemicize(Token(input)) == output

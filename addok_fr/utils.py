@@ -9,6 +9,8 @@ def phonemicize(s):
     if s not in _CACHE:
         rules = (
             ("a(mp|nd|nt)s?$", "an"), # champ(s) > cham
+            (r"ngt([aeiouy])", r"nt\1"),  # vingtieme > vintieme
+            (r"ngt", "n"),  # vingt > vin
             ("((?<=[^g])g|^g)(?=[eyi])", "j"),
             ("(?<=g)u(?=[aeio])", ""),
             ("c(?=[^hieyw])", "k"),

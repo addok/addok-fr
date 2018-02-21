@@ -8,7 +8,7 @@ def phonemicize(s):
     significant."""
     if s not in _CACHE:
         rules = (
-            ("a(mp|nd|nt)s?$", "an"), # champ(s) > cham
+            ("a(mp|nd|nt)s?$", "an"),  # champ(s) > cham
             (r"ngt([aeiouy])", r"nt\1"),  # vingtieme > vintieme
             (r"ngt", "n"),  # vingt > vin
             ("((?<=[^g])g|^g)(?=[eyi])", "j"),
@@ -39,7 +39,7 @@ def phonemicize(s):
             ("(?<=[aeiou])(m)(?=[pbgft])", "n"),
             ("(?<=[a-z]{2})(e$)", ""),  # Remove "e" at last position only if
                                         # it follows two letters?
-            ("([aeiouy])n[dt]([^aeiouyr])", "\\1n\\2"), # montbon -> monbon
+            ("([aeiouy])n[dt]([^aeiouyr])", "\\1n\\2"),  # montbon -> monbon
             (r"([a-z])\1", r"\1"),  # Remove duplicate letters.
         )
         _s = s

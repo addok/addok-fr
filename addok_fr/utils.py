@@ -8,6 +8,7 @@ def phonemicize(s):
     significant."""
     if s not in _CACHE:
         rules = (
+            ("a(mp|nd|nt)s?$", "an"), # champ(s) > cham
             ("((?<=[^g])g|^g)(?=[eyi])", "j"),
             ("(?<=g)u(?=[aeio])", ""),
             ("c(?=[^hieyw])", "k"),
@@ -33,13 +34,15 @@ def phonemicize(s):
             ("(?<=u)lt$", "t"),
             ("(?<=[a-z])[dg]$", ""),
             ("(?<=[^es0-9])t$", ""),
-            ("(?<=[aeiou])(m)(?=[pbgf])", "n"),
+            ("(?<=[aeiou])(m)(?=[pbgft])", "n"),
             ("(?<=[a-z]{2})(e$)", ""),  # Remove "e" at last position only if
                                         # it follows two letters?
-            ("(\\D)(?=\\1)", ""),  # Remove duplicate letters.
+            ("([aeiouy])n[dt]([^aeiouyr])", "\\1n\\2"), # montbon -> monbon
+            (r"([a-z])\1", r"\1"),  # Remove duplicate letters.
         )
         _s = s
         for pattern, repl in rules:
             _s = re.sub(pattern, repl, _s)
+#            print(pattern, _s)
         _CACHE[s] = _s
     return s.update(_CACHE[s])

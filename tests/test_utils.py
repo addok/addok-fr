@@ -103,6 +103,12 @@ from addok_fr.utils import phonemicize
     ['quimper', 'kinper'],
     ['georges', 'jeorj'],
     ['h', 'h'],
+    ['vallee', 'vale'],
+    ['montgriffon', 'mongrifon'],
+    ['montagne', 'montagn'],
+    ['montage', 'montaj'],
+    ['champs', 'chan'],
+    ['grandchamps', 'granchan'],
 ])
 def test_phonemicize(input, output):
     assert phonemicize(Token(input)) == output

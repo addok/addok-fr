@@ -77,6 +77,7 @@ gde => grande
 gdes => grandes
 gds => grands
 gen,gal,gl => general
+gir => giratoire
 gpl => grand place
 gr => grande rue
 grp,grpe => groupe

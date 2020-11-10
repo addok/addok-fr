@@ -17,6 +17,7 @@ def phonemicize(s):
                 (r"ngt", "n"),  # vingt > vin
                 (r"((?<=[^g])g|^g)(?=[eyi])", "j"),
                 (r"(?<=g)u(?=[aeio])", ""),
+                (r"gn([aeio])", r"ni\1"),
                 (r"je([aeiouy])", r"j\1"),  # georges -> jorj
                 (r"c(?=[^hieyw])", "k"),
                 (r"anc$","an"),

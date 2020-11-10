@@ -37,7 +37,10 @@ def phonemicize(s):
                 (r"c(?=[eiy])", "s"),
                 (r"(?<=[^0-9])y", "i"),
                 ("esn", "en"),
-                (r"oe(?=\w)", "e"),
+                (r"eim( |$)", "aim"),
+                (r"(ae|ei)(?=\w)", "e"),
+                (r"oeufs( |$)", "eu"),
+                (r"oeu?(?=\w)", "eu"),
                 (r"(?<=[^0-9])s$", ""),
                 (r"(?<=u)l?x$", ""),  # eaux, eux, aux, aulx
                 (r"(?<=u)lt$", "t"),

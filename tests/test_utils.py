@@ -121,6 +121,7 @@ from addok_fr.utils import phonemicize
     ['montee', 'monte'],
     ['seigneur', 'senieur'],
     ['pforzheim', 'pforzaim'],
+    ['hyppolyte', 'ipolit'],
     
 ])
 def test_phonemicize(input, output):

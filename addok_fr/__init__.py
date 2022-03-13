@@ -10,4 +10,4 @@ RESOURCES_ROOT = Path(__file__).parent / 'resources'
 
 
 def preconfigure(config):
-    config.SYNONYMS_PATH = RESOURCES_ROOT / 'synonyms.txt'
+    config.SYNONYMS_PATHS.append(RESOURCES_ROOT / 'synonyms.txt')

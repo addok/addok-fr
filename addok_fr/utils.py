@@ -8,8 +8,8 @@ def phonemicize(s):
     significant."""
     if s not in _CACHE:
         rules = (
-            ("a(mp|nd|nt)s?$", "an"),  # champ(s) > cham
-            (r"ngt([aeiouy])", r"nt\1"),  # vingtieme > vintieme
+            ("(?<=a)(mp|nd|nt)s?$", "n"),  # champ(s) > cham
+            (r"ngt(?=[aeiouy])", "nt"),  # vingtieme > vintieme
             (r"ngt", "n"),  # vingt > vin
             ("((?<=[^g])g|^g)(?=[eyi])", "j"),
             ("(?<=g)u(?=[aeio])", ""),
@@ -30,21 +30,20 @@ def phonemicize(s):
             ("c(?=[eiy])", "s"),
             ("(?<=[^0-9])y", "i"),
             ("esn", "en"),
-            ("oe(?=\\w)", "e"),
+            (r"oe(?=\w)", "e"),
             ("(?<=[^0-9])s$", ""),
             ("(?<=u)l?x$", ""),  # eaux, eux, aux, aulx
             ("(?<=u)lt$", "t"),
             ("(?<=[a-z])[dg]$", ""),
             ("(?<=[^es0-9])t$", ""),
-            ("(?<=[aeiou])(m)(?=[pbgft])", "n"),
+            ("(?<=[aeiou])(m)(?=[pbgf])", "n"),
             ("(?<=[a-z]{2})(e$)", ""),  # Remove "e" at last position only if
                                         # it follows two letters?
-            ("([aeiouy])n[dt]([^aeiouyr])", "\\1n\\2"),  # montbon -> monbon
-            (r"([a-z])\1", r"\1"),  # Remove duplicate letters.
+            (r"(?<=[aeiouy])n[dt](?=[^aeiouyr])", "n"),  # montbon -> monbon
+            (r"(\D)(?=\1)", ""),  # Remove duplicate letters.
         )
         _s = s
         for pattern, repl in rules:
             _s = re.sub(pattern, repl, _s)
-#            print(pattern, _s)
         _CACHE[s] = _s
     return s.update(_CACHE[s])

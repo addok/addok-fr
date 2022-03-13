@@ -104,6 +104,7 @@ from addok_fr.utils import phonemicize
     ['georges', 'jeorj'],
     ['h', 'h'],
     ['vallee', 'vale'],
+    ['valllee', 'vale'],
     ['montgriffon', 'mongrifon'],
     ['montagne', 'montagn'],
     ['montage', 'montaj'],

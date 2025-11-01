@@ -1,6 +1,8 @@
 import re
+from functools import lru_cache
 
-_CACHE = {}
+from addok import config
+
 RULES = (
     ("(?<=a)(mp|nd|nt)s?$", "n"),  # champ(s) > cham
     (r"ngt(?=[aeiouy])", "nt"),  # vingtieme > vintieme
@@ -38,13 +40,31 @@ RULES = (
 )
 COMPILED = list((re.compile(pattern), replacement) for pattern, replacement in RULES)
 
+# Read cache size from config at module load time
+CACHE_SIZE = getattr(config, 'PHONEMICIZE_CACHE_SIZE', 500_000)
+
+
+@lru_cache(maxsize=CACHE_SIZE)
+def _phonemicize_string(text):
+    """Apply phonemicization rules to a string.
+    
+    This function is cached with LRU (Least Recently Used) strategy.
+    Cache size is configurable via config.PHONEMICIZE_CACHE_SIZE.
+    Default: 500,000 entries (~86 MB), suitable for ~500K unique words.
+    """
+    result = text
+    for pattern, repl in COMPILED:
+        result = pattern.sub(repl, result)
+    return result
+
 
 def phonemicize(s):
     """Very lite French phonemicization. Try to remove every letter that is not
-    significant."""
-    if s not in _CACHE:
-        _s = s
-        for pattern, repl in COMPILED:
-            _s = pattern.sub(repl, _s)
-        _CACHE[s] = _s
-    return s.update(_CACHE[s])
+    significant.
+
+    Takes a Token, applies phonemicization rules (cached), and returns
+    a new Token with the phonemicized value while preserving metadata
+    (position, is_last, raw, etc.).
+    """
+    phonemicized = _phonemicize_string(str(s))
+    return s.update(phonemicized)

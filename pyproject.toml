@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "addok-fr"
-version = "1.0.1"
+version = "1.1.0"
 description = "Addok plugin for French language support with phonetic normalization and French-specific synonyms."
 readme = "README.md"
 authors = [

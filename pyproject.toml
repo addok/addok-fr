@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=65.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "addok-fr"
+version = "1.0.1"
+description = "Add French specific string processors."
+readme = "README.md"
+authors = [
+    {name = "Yohan Boniface", email = "yohan.boniface@data.gouv.fr"}
+]
+license = "MIT"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+keywords = ["addok", "geocoding", "french", "plugin"]
+requires-python = ">=3.9"
+dependencies = [
+    "addok",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest~=8.3",
+    "pytest-cov~=6.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/addok/addok-fr"
+
+[project.entry-points."addok.ext"]
+fr = "addok_fr"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["tests*"]
+
+[tool.pytest.ini_options]
+addopts = "-x"

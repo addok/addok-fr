@@ -32,6 +32,8 @@ dependencies = [
 dev = [
     "pytest~=8.3",
     "pytest-cov~=6.1",
+    "build~=1.2",
+    "twine==6.1.0",
 ]
 
 [project.urls]
@@ -44,7 +46,7 @@ fr = "addok_fr"
 include-package-data = true
 
 [tool.setuptools.packages.find]
-exclude = ["tests*"]
+exclude = ["tests*", "venv*", ".venv*", "build*", "dist*"]
 
 [tool.pytest.ini_options]
 addopts = "-x"

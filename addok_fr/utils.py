@@ -5,11 +5,15 @@ from addok import config
 
 RULES = (
     ("(?<=a)(mp|nd|nt)s?$", "n"),  # champ(s) > cham
+    (r"([aeiouy])mp(?=[^aeiouyr])", r"\1n"),  # champvallon -> chanvalon
     (r"ngt(?=[aeiouy])", "nt"),  # vingtieme > vintieme
     (r"ngt", "n"),  # vingt > vin
     ("((?<=[^g])g|^g)(?=[eyi])", "j"),
     ("(?<=g)u(?=[aeio])", ""),
+    (r"(?<=ei)gn([aeiouy])", r"ni\1"),  # seigneur -> senieur (only after ei specifically)
+    (r"je([aeiouy])", r"j\1"),  # georges -> jorj
     ("c(?=[^hieyw])", "k"),
+    (r"anc$", "an"),  # blanc -> blan
     ("((?<=[^s])ch|(?<=[^0-9])c)$", "k"),  # final "c", "ch",
     # but not "sch" and not 10c.
     ("(?<=[aeiouy])s(?=[aeiouy])", "z"),
@@ -24,19 +28,22 @@ RULES = (
     ("sh", "ch"),
     ("((?<=[^0-9])w|^w)", "v"),
     ("c(?=[eiy])", "s"),
-    ("(?<=[^0-9])y", "i"),
+    (r"((?<=[^0-9])y|^y)", "i"),  # also handle y at beginning
     ("esn", "en"),
-    (r"oe(?=\w)", "e"),
+    (r"eim( |$)", "aim"),  # pforzheim -> pforzaim
+    (r"(ae|ei)(?=\w)", "e"),  # improved ae/ei handling
+    (r"oeufs( |$)", "eu"),  # special case for oeufs
+    (r"oeu?(?=\w)", "eu"),  # oe/oeu -> eu
     ("(?<=[^0-9])s$", ""),
     ("(?<=u)l?x$", ""),  # eaux, eux, aux, aulx
     ("(?<=u)lt$", "t"),
     ("(?<=[a-z])[dg]$", ""),
     ("(?<=[^es0-9])t$", ""),
-    ("(?<=[aeiou])(m)(?=[pbgf])", "n"),
+    ("(?<=[aeiou])(m)(?=[pbgft])", "n"),  # m -> n before labial/dental consonants (e.g., impossible -> inpossible)
     ("(?<=[a-z]{2})(e$)", ""),  # Remove "e" at last position only if
                                 # it follows two letters?
     (r"(?<=[aeiouy])n[dt](?=[^aeiouyr])", "n"),  # montbon -> monbon
-    (r"(\D)(?=\1)", ""),  # Remove duplicate letters.
+    (r"([a-z])\1+", r"\1"),  # Remove duplicate letters (one or more repetitions)
 )
 COMPILED = list((re.compile(pattern), replacement) for pattern, replacement in RULES)
 

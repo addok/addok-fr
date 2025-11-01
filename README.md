@@ -1,4 +1,11 @@
-# Addok plugin for French support
+# addok-fr
+
+Addok plugin for improved French geocoding with phonetic normalization and French-specific synonym handling.
+
+## Features
+
+- **Phonetic normalization**: French-optimized phonetic processor that handles typos and spelling variations in address searches
+- **French synonyms**: Pre-configured synonym database for common French address terms (rue, avenue, boulevard, etc.)
 
 ## Installation
 

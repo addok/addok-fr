@@ -1,18 +1,17 @@
-import pytest
-
 from addok.helpers.text import Token
-from addok_fr.utils import phonemicize, _phonemicize_string
+from addok_fr.utils import phonemicize, _get_cached_function
 
 
 def test_cache_hits_on_repeated_calls():
     """Test that the LRU cache works correctly on repeated calls."""
     # Clear the cache before testing
-    _phonemicize_string.cache_clear()
+    cached_func = _get_cached_function()
+    cached_func.cache_clear()
 
     # First call should be a cache miss
     token1 = Token('paris')
     result1 = phonemicize(token1)
-    cache_info_after_first = _phonemicize_string.cache_info()
+    cache_info_after_first = cached_func.cache_info()
 
     assert str(result1) == 'pari'
     assert cache_info_after_first.misses == 1
@@ -21,7 +20,7 @@ def test_cache_hits_on_repeated_calls():
     # Second call with same value should be a cache hit
     token2 = Token('paris')
     result2 = phonemicize(token2)
-    cache_info_after_second = _phonemicize_string.cache_info()
+    cache_info_after_second = cached_func.cache_info()
 
     assert str(result2) == 'pari'
     assert cache_info_after_second.misses == 1
@@ -30,7 +29,8 @@ def test_cache_hits_on_repeated_calls():
 
 def test_cache_preserves_token_metadata():
     """Test that caching doesn't affect Token metadata preservation."""
-    _phonemicize_string.cache_clear()
+    cached_func = _get_cached_function()
+    cached_func.cache_clear()
 
     # First call
     token1 = Token('lyon', position=0, is_last=False, raw='Lyon')
@@ -53,26 +53,28 @@ def test_cache_preserves_token_metadata():
 
 def test_cache_max_size():
     """Test that the cache has the expected maximum size."""
-    cache_info = _phonemicize_string.cache_info()
+    cached_func = _get_cached_function()
+    cache_info = cached_func.cache_info()
     assert cache_info.maxsize == 500_000
 
 
 def test_cache_can_be_cleared():
     """Test that the cache can be cleared."""
-    _phonemicize_string.cache_clear()
+    cached_func = _get_cached_function()
+    cached_func.cache_clear()
 
     # Add some entries
     phonemicize(Token('paris'))
     phonemicize(Token('lyon'))
     phonemicize(Token('marseille'))
 
-    cache_info = _phonemicize_string.cache_info()
+    cache_info = cached_func.cache_info()
     assert cache_info.currsize == 3
 
     # Clear the cache
-    _phonemicize_string.cache_clear()
+    cached_func.cache_clear()
 
-    cache_info_after = _phonemicize_string.cache_info()
+    cache_info_after = cached_func.cache_info()
     assert cache_info_after.currsize == 0
     assert cache_info_after.hits == 0
     assert cache_info_after.misses == 0

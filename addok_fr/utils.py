@@ -40,22 +40,40 @@ RULES = (
 )
 COMPILED = list((re.compile(pattern), replacement) for pattern, replacement in RULES)
 
-# Read cache size from config at module load time
-CACHE_SIZE = getattr(config, 'PHONEMICIZE_CACHE_SIZE', 500_000)
+# Cache will be initialized lazily to allow configuration via preconfigure()
+_phonemicize_cached = None
 
 
-@lru_cache(maxsize=CACHE_SIZE)
-def _phonemicize_string(text):
-    """Apply phonemicization rules to a string.
+def _get_cached_function():
+    """Get or create the cached phonemicize function.
     
-    This function is cached with LRU (Least Recently Used) strategy.
-    Cache size is configurable via config.PHONEMICIZE_CACHE_SIZE.
-    Default: 500,000 entries (~86 MB), suitable for ~500K unique words.
+    This lazy initialization ensures the cache size is read after preconfigure()
+    has run, avoiding race conditions.
     """
-    result = text
-    for pattern, repl in COMPILED:
-        result = pattern.sub(repl, result)
-    return result
+    global _phonemicize_cached
+    if _phonemicize_cached is None:
+        cache_size = getattr(config, 'PHONEMICIZE_CACHE_SIZE', 500_000)
+        
+        @lru_cache(maxsize=cache_size)
+        def _impl(text):
+            """Apply phonemicization rules to a string.
+            
+            This function is cached with LRU (Least Recently Used) strategy.
+            Cache size is configurable via config.PHONEMICIZE_CACHE_SIZE.
+            Default: 500,000 entries (~86 MB), suitable for ~500K unique words.
+            """
+            result = text
+            for pattern, repl in COMPILED:
+                result = pattern.sub(repl, result)
+            return result
+        
+        _phonemicize_cached = _impl
+    return _phonemicize_cached
+
+
+def _phonemicize_string(text):
+    """Wrapper to call the cached function."""
+    return _get_cached_function()(text)
 
 
 def phonemicize(s):
